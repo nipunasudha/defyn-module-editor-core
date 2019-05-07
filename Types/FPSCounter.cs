@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class FPSCounter : MonoBehaviour
 {
+	public bool EditorOnly;
+	
+	[Separator]
 	[SerializeField] private float _updateInterval = 1f;
 	[SerializeField] private int _targetFrameRate = 30;
 	
@@ -10,7 +13,12 @@ public class FPSCounter : MonoBehaviour
 	[SerializeField] private Anchor _anchor;
 	[SerializeField] private int _xOffset;
 	[SerializeField] private int _yOffset;
-	
+
+	/// <summary>
+	/// Skip some time at start to skip performance drop on game start
+	/// and produce more accurate Avg FPS
+	/// </summary>
+	private float _idleTime = 2;
 
 	private float _elapsed;
 	private int _frames;
@@ -30,6 +38,8 @@ public class FPSCounter : MonoBehaviour
 
 	private void Awake()
 	{
+		if (EditorOnly && Application.isEditor) return;
+		
 		_goodColor = new Color(.4f, .6f, .4f);
 		_okColor = new Color(.8f, .8f, .2f, .6f);
 		_badColor = new Color(.8f, .6f, .6f);
@@ -43,7 +53,7 @@ public class FPSCounter : MonoBehaviour
 		var xPos = 0;
 		var yPos = 0;
 		var linesHeight = 40;
-		var linesWidth = 150;
+		var linesWidth = 90;
 		if (_anchor == Anchor.LeftBottom || _anchor == Anchor.RightBottom) yPos = Screen.height - linesHeight;
 		if (_anchor == Anchor.RightTop || _anchor == Anchor.RightBottom) xPos = Screen.width - linesWidth;
 		xPos += _xOffset;
@@ -57,6 +67,14 @@ public class FPSCounter : MonoBehaviour
 	
 	private void Update()
 	{
+		if (EditorOnly && Application.isEditor) return;
+
+		if (_idleTime > 0)
+		{
+			_idleTime -= Time.deltaTime;
+			return;
+		}
+		
 		_elapsed += Time.deltaTime;
 		++_frames;
 		
@@ -73,6 +91,8 @@ public class FPSCounter : MonoBehaviour
 
 	private void OnGUI()
 	{
+		if (EditorOnly && Application.isEditor) return;
+
 		var defaultColor = GUI.color;
 		var color = _goodColor;
 		if (_fps <= _okFps || _averageFps <= _okFps) color = _okColor;
