@@ -1,3 +1,7 @@
+* #### Automatically generate asmdef dependencies for Unity 2019.1 and 2019.2
+
+* #### Add documentation links for MonoBehaviour types
+
 * #### Allow to opt out MustBeAssigned and AutoProperty checks? Add highlight in inspector if disibled?
 
 * #### MustBeAssigned may work with ScriptableObjects in project? 
@@ -10,6 +14,8 @@
   * Write last opened asset id to EditorPrefs, bind to Save event to update asset automatically?
   
 * #### MonoBehaviourPool
+
+* #### MyGizmos => Arrow, Dotted, Cross?
 
 * #### Highlight empty fields with MustBeAssignedAttribute in inspector
   * And AutoProperty fields if none found on GO	
@@ -59,3 +65,7 @@
     * WHOA! Figured it out. I may generate separate script with MenuItems in any selected by used folder. Find this script and get its path to regenerate if needed!
    
 * #### Conditionally remove some features like extension/hotkeys with Conditional Compilation?
+
+* #### Somehow apply Custom Drawer to empty array? ConditionalField is need this
+
+* #### ConditionalField should hide Separator attribute?
